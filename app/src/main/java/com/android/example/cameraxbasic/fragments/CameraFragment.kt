@@ -72,14 +72,13 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-/** Helper type alias used for analysis use case callbacks */
 typealias LumaListener = (luma: Double) -> Unit
 
 /**
- * Main fragment for this app. Implements all camera operations including:
- * - Viewfinder
- * - Photo taking
- * - Image analysis
+ * Main Fragment de la App. Implementa todas las opciones de la cámara, incluídas:
+ * - Previsualización
+ * - Tomar la foto.
+ * - Análisis de la imagen.
  */
 class CameraFragment : Fragment() {
 
@@ -105,14 +104,14 @@ class CameraFragment : Fragment() {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
     }
 
-    /** Blocking camera operations are performed using this executor */
+    /** Para bloquear las acciones de la cámara usamos este "executor" */
     private lateinit var cameraExecutor: ExecutorService
 
-    /** Volume down button receiver used to trigger shutter */
+    /** Trigger al pulsar el botón de bajar volumen */
     private val volumeDownReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.getIntExtra(KEY_EVENT_EXTRA, KeyEvent.KEYCODE_UNKNOWN)) {
-                // When the volume down button is pressed, simulate a shutter button click
+                // Cuando el botón de bajar volumen se pulsa, simula una llamada al trigger del Click
                 KeyEvent.KEYCODE_VOLUME_DOWN -> {
                     cameraUiContainerBinding?.cameraCaptureButton?.simulateClick()
                 }
@@ -121,9 +120,9 @@ class CameraFragment : Fragment() {
     }
 
     /**
-     * We need a display listener for orientation changes that do not trigger a configuration
-     * change, for example if we choose to override config change in manifest or for 180-degree
-     * orientation changes.
+     * Necesitamos poder detectar cambios en la orientación de la pantalla para poder
+     * aplicar la configuración necesaria, por ejemplo, si elegimos modificar el cambio de confif en
+     * el manifest o para cambio de orientación de 180 grados.
      */
     private val displayListener = object : DisplayManager.DisplayListener {
         override fun onDisplayAdded(displayId: Int) = Unit
