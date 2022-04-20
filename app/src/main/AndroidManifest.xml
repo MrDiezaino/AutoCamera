@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.example.cameraxbasic">
-
-    <!-- Habilita el ajuste de Aplicaciones instantáneas
+    <!--
+     Habilita el ajuste de Aplicaciones instantáneas
      Esto es para que puedas "Probar la aplicación" sin instalarla desde PlayStore
-     -->
-    <dist:module dist:instant="true" />
-
-    <!-- Features -->
-    <uses-feature android:name="android.hardware.camera" />
-
-    <!-- Permisos -->
+    -->
+    <dist:module dist:instant="true" /> <!-- Features -->
+    <uses-feature android:name="android.hardware.camera" /> <!-- Permisos -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".MainApplication"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="@string/app_name"
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         tools:ignore="AllowBackup">
-
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivity"
             android:clearTaskOnLaunch="true"
-            android:theme="@style/AppTheme"
-            android:icon="@mipmap/ic_launcher"
-            android:screenOrientation="fullUser"
-            android:rotationAnimation="seamless"
-            android:resizeableActivity="true"
             android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
+            android:icon="@mipmap/ic_launcher"
+            android:resizeableActivity="true"
+            android:rotationAnimation="seamless"
+            android:screenOrientation="fullUser"
+            android:theme="@style/AppTheme"
             tools:targetApi="O">
 
             <!-- Intent-Filter de la MainApp -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <!-- Se registra como una aplicación de Cámara -->
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
-                <action android:name="android.media.action.STILL_IMAGE_CAMERA"/>
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
                 <action android:name="android.media.action.VIDEO_CAMERA" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <!-- App links para http/s -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="example.android.com" />
@@ -62,11 +63,10 @@
             </intent-filter>
 
             <!-- Declara que soporta Notch -->
-            <meta-data android:name="android.notch_support" android:value="true"/>
-
-        </activity>
-
-        <!-- FileProvider para compartir los archivos con otras Apps -->
+            <meta-data
+                android:name="android.notch_support"
+                android:value="true" />
+        </activity> <!-- FileProvider para compartir los archivos con otras Apps -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -74,9 +74,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

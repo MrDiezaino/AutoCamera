@@ -17,10 +17,9 @@
 package com.android.example.cameraxbasic.fragments
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
+import android.content.Intent.getIntent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -49,9 +48,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import androidx.window.WindowManager
-import com.android.example.cameraxbasic.KEY_EVENT_ACTION
-import com.android.example.cameraxbasic.KEY_EVENT_EXTRA
-import com.android.example.cameraxbasic.MainActivity
+import com.android.example.cameraxbasic.*
 import com.android.example.cameraxbasic.R
 import com.android.example.cameraxbasic.databinding.CameraUiContainerBinding
 import com.android.example.cameraxbasic.databinding.FragmentCameraBinding
@@ -86,6 +83,8 @@ typealias LumaListener = (luma: Double) -> Unit
  */
 class CameraFragment : Fragment() {
 
+    private var CANTIDAD_FOTOS: Int = 5
+    private var TIEMPO_FOTOS: Int = 5000
     private var _fragmentCameraBinding: FragmentCameraBinding? = null
 
     private val fragmentCameraBinding get() = _fragmentCameraBinding!!
@@ -103,6 +102,8 @@ class CameraFragment : Fragment() {
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
     private lateinit var windowManager: WindowManager
+
+    private val settingsList = arrayOf("Tiempo", "Fotos", "Subida")
 
     private val displayManager by lazy {
         requireContext().getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
@@ -169,7 +170,18 @@ class CameraFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         _fragmentCameraBinding = FragmentCameraBinding.inflate(inflater, container, false)
+
+        val CANTIDAD_FOTOS = requireArguments().getInt("cantidadFotos")
+        val TIEMPO_FOTOS = requireArguments().getInt("tiempoFotos")
+
+        pasarValoresSettings(CANTIDAD_FOTOS,TIEMPO_FOTOS)
+
         return fragmentCameraBinding.root
+    }
+
+    private fun pasarValoresSettings(CANTIDAD_FOTOS : Int, TIEMPO_FOTOS : Int) {
+        this.CANTIDAD_FOTOS = CANTIDAD_FOTOS
+        this.TIEMPO_FOTOS = TIEMPO_FOTOS
     }
 
     private fun setGalleryThumbnail(uri: Uri) {
@@ -577,15 +589,20 @@ class CameraFragment : Fragment() {
             }
         }
 
-        // Especificar la Cantidad de Fotos a sacar
-        val CANTIDAD_FOTOS = 10
+        // Listener del botón de "Configurar Automático"
+        cameraUiContainerBinding?.settingsAutoButton?.setOnClickListener {
+            // TODO: Config cantidad Fotos
+            val intent = Intent(activity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
 
         // Listener del botón de "Automático"
         cameraUiContainerBinding?.startAutoButton?.setOnClickListener {
             val job2 = CoroutineScope(Dispatchers.Main).launch {
+                Log.d("CANTIDADFOTOS", CANTIDAD_FOTOS.toString())
                 for (e in 1..CANTIDAD_FOTOS) {
                     cameraUiContainerBinding?.cameraCaptureButton?.simulateClick()
-                    delay(5000)
+                    delay(TIEMPO_FOTOS.toLong())
                 }
             }
 

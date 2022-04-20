@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2020 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +27,6 @@
     <string name="delete_button_alt">Borrar</string>
     <string name="delete_dialog">Borrar la foto actual?</string>
     <string name="delete_title">Confirmar</string>
-    <string-array name="opciones_menu">
-        <item>Tiempo entre fotos</item>
-        <item>Configurar Alarmas</item>
-    </string-array>
+    <string name="cantidad_fotos">Cantidad de Fotos</string>
+    <string name="tiempo_fotos">Tiempo entre Fotos (ms)</string>
 </resources>

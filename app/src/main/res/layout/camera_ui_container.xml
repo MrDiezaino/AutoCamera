@@ -25,6 +25,22 @@
     <!-- Camera control and gallery buttons -->
 
     <ImageButton
+        android:id="@+id/settings_auto_button"
+        android:layout_width="@dimen/round_button_medium"
+        android:layout_height="@dimen/round_button_medium"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="92dp"
+        android:background="@drawable/ic_outer_circle"
+        android:contentDescription="@string/gallery_button_alt"
+        android:padding="@dimen/spacing_large"
+        android:scaleType="fitCenter"
+        android:tint="@color/selector_ic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_manage"
+        tools:ignore="UseAppTint" />
+
+    <ImageButton
         android:id="@+id/start_auto_button"
         android:layout_width="@dimen/round_button_medium"
         android:layout_height="@dimen/round_button_medium"

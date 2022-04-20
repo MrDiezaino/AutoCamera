@@ -27,7 +27,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.android.example.cameraxbasic.databinding.ActivityMainBinding
+import com.android.example.cameraxbasic.fragments.CameraFragment
 import java.io.File
+import kotlin.properties.Delegates
 
 const val KEY_EVENT_ACTION = "key_event_action"
 const val KEY_EVENT_EXTRA = "key_event_extra"
@@ -45,6 +47,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        var cantidadFotos by Delegates.notNull<Int>()
+        var tiempoFotos by Delegates.notNull<Int>()
+
+        val bundle = Bundle()
+        val cameraFragment = CameraFragment()
+
+        if (intent.getStringExtra("cantidadFotos").isNullOrBlank()
+            or
+            intent.getStringExtra("tiempoFotos").isNullOrBlank()
+        ) {
+            cantidadFotos = 5
+            tiempoFotos = 5000
+
+            bundle.putInt("cantidadFotos", cantidadFotos)
+            bundle.putInt("tiempoFotos", tiempoFotos)
+
+            cameraFragment.setArguments(bundle)
+
+        } else {
+            cantidadFotos = intent.getStringExtra("cantidadFotos")!!.toInt()
+            tiempoFotos = intent.getStringExtra("tiempoFotos")!!.toInt()
+
+            bundle.putInt("cantidadFotos", cantidadFotos)
+            bundle.putInt("tiempoFotos", tiempoFotos)
+
+            cameraFragment.setArguments(bundle)
+
+        }
+
     }
 
     override fun onResume() {
