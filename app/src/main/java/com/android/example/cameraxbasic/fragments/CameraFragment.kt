@@ -29,12 +29,14 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.core.ImageCapture.Metadata
@@ -58,7 +60,9 @@ import com.android.example.cameraxbasic.utils.ANIMATION_SLOW_MILLIS
 import com.android.example.cameraxbasic.utils.simulateClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.nio.ByteBuffer
@@ -570,6 +574,34 @@ class CameraFragment : Fragment() {
                         requireActivity(), R.id.fragment_container
                 ).navigate(CameraFragmentDirections
                         .actionCameraToGallery(outputDirectory.absolutePath))
+            }
+        }
+
+        // Especificar la Cantidad de Fotos a sacar
+        val CANTIDAD_FOTOS = 10
+
+        // Listener del botón de "Automático"
+        cameraUiContainerBinding?.startAutoButton?.setOnClickListener {
+            val job2 = CoroutineScope(Dispatchers.Main).launch {
+                for (e in 1..CANTIDAD_FOTOS) {
+                    cameraUiContainerBinding?.cameraCaptureButton?.simulateClick()
+                    delay(5000)
+                }
+            }
+
+            val job3 = CoroutineScope(Dispatchers.Main).launch {
+                for (e in 1 until CANTIDAD_FOTOS) {
+                    cameraUiContainerBinding?.textCounter?.setText("5")
+                    delay(1000)
+                    cameraUiContainerBinding?.textCounter?.setText("4")
+                    delay(1000)
+                    cameraUiContainerBinding?.textCounter?.setText("3")
+                    delay(1000)
+                    cameraUiContainerBinding?.textCounter?.setText("2")
+                    delay(1000)
+                    cameraUiContainerBinding?.textCounter?.setText("1")
+                    delay(1000)
+                }
             }
         }
     }
