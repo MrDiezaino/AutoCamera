@@ -150,6 +150,11 @@ class CameraFragment : Fragment() {
                     CameraFragmentDirections.actionCameraToPermissions()
             )
         }
+
+        CANTIDAD_FOTOS = requireArguments().getInt("cantidadFotos")
+        TIEMPO_FOTOS = requireArguments().getInt("tiempoFotos")
+
+        Log.d("CANTIDAD_FOTOS_ONRESUME", CANTIDAD_FOTOS.toString())
     }
 
     override fun onDestroyView() {
@@ -171,17 +176,12 @@ class CameraFragment : Fragment() {
     ): View {
         _fragmentCameraBinding = FragmentCameraBinding.inflate(inflater, container, false)
 
-        val CANTIDAD_FOTOS = requireArguments().getInt("cantidadFotos")
-        val TIEMPO_FOTOS = requireArguments().getInt("tiempoFotos")
+        CANTIDAD_FOTOS = requireArguments().getInt("cantidadFotos")
+        TIEMPO_FOTOS = requireArguments().getInt("tiempoFotos")
 
-        pasarValoresSettings(CANTIDAD_FOTOS,TIEMPO_FOTOS)
+        Log.d("CANTIDAD_FOTOS_ONCREATE", CANTIDAD_FOTOS.toString())
 
         return fragmentCameraBinding.root
-    }
-
-    private fun pasarValoresSettings(CANTIDAD_FOTOS : Int, TIEMPO_FOTOS : Int) {
-        this.CANTIDAD_FOTOS = CANTIDAD_FOTOS
-        this.TIEMPO_FOTOS = TIEMPO_FOTOS
     }
 
     private fun setGalleryThumbnail(uri: Uri) {
@@ -599,7 +599,7 @@ class CameraFragment : Fragment() {
         // Listener del botón de "Automático"
         cameraUiContainerBinding?.startAutoButton?.setOnClickListener {
             val job2 = CoroutineScope(Dispatchers.Main).launch {
-                Log.d("CANTIDADFOTOS", CANTIDAD_FOTOS.toString())
+                Log.d("CANTIDADFOTOS_corrutina", CANTIDAD_FOTOS.toString())
                 for (e in 1..CANTIDAD_FOTOS) {
                     cameraUiContainerBinding?.cameraCaptureButton?.simulateClick()
                     delay(TIEMPO_FOTOS.toLong())

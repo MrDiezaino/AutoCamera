@@ -3,6 +3,7 @@ package com.android.example.cameraxbasic
 import android.R
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.example.cameraxbasic.databinding.ActivitySettingsBinding
@@ -31,6 +32,7 @@ class SettingsActivity : AppCompatActivity() {
                 val intent = Intent(this,MainActivity::class.java)
                 intent.putExtra("cantidadFotos", cantidadFotos)
                 intent.putExtra("tiempoFotos", tiempoFotos)
+                Log.d("CANTIDADFOTOS_Settings", cantidadFotos.toString())
                 startActivity(intent)
             }
         }

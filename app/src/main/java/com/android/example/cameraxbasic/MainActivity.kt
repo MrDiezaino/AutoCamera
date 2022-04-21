@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -48,34 +49,18 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
-        var cantidadFotos by Delegates.notNull<Int>()
-        var tiempoFotos by Delegates.notNull<Int>()
-
         val bundle = Bundle()
         val cameraFragment = CameraFragment()
 
-        if (intent.getStringExtra("cantidadFotos").isNullOrBlank()
-            or
-            intent.getStringExtra("tiempoFotos").isNullOrBlank()
-        ) {
-            cantidadFotos = 5
-            tiempoFotos = 5000
+        val cantidadFotos: Int = intent.getIntExtra("cantidadFotos",5)
+        val tiempoFotos: Int = intent.getIntExtra("tiempoFotos",5000)
 
-            bundle.putInt("cantidadFotos", cantidadFotos)
-            bundle.putInt("tiempoFotos", tiempoFotos)
+        bundle.putInt("cantidadFotos", cantidadFotos)
+        bundle.putInt("tiempoFotos", tiempoFotos)
 
-            cameraFragment.setArguments(bundle)
+        Log.d("CANTIDADFOTOS_Main", cantidadFotos.toString())
 
-        } else {
-            cantidadFotos = intent.getStringExtra("cantidadFotos")!!.toInt()
-            tiempoFotos = intent.getStringExtra("tiempoFotos")!!.toInt()
-
-            bundle.putInt("cantidadFotos", cantidadFotos)
-            bundle.putInt("tiempoFotos", tiempoFotos)
-
-            cameraFragment.setArguments(bundle)
-
-        }
+        cameraFragment.setArguments(bundle)
 
     }
 
@@ -86,6 +71,20 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.fragmentContainer.postDelayed({
             hideSystemUI()
         }, IMMERSIVE_FLAG_TIMEOUT)
+
+        val bundle = Bundle()
+        val cameraFragment = CameraFragment()
+
+        val cantidadFotos: Int = intent.getIntExtra("cantidadFotos",5)
+        val tiempoFotos: Int = intent.getIntExtra("tiempoFotos",5000)
+
+        bundle.putInt("cantidadFotos", cantidadFotos)
+        bundle.putInt("tiempoFotos", tiempoFotos)
+
+        Log.d("CANTIDADFOTOS_Main", cantidadFotos.toString())
+
+        cameraFragment.setArguments(bundle)
+
     }
 
     /** When key down event is triggered, relay it via local broadcast so fragments can handle it */
